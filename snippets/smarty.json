@@ -1,0 +1,282 @@
+{
+  "append": {
+    "prefix": "append",
+    "body": "{append var=\"${1:name}\" value=\"${2:value}\" index=\"${3:last}\"}$0",
+    "description": "{append} is used for creating or appending template variable arrays during the execution of a template."
+  },
+  "assign": {
+    "prefix": "assign",
+    "body": "{assign var=\"${1:name}\" value=${2:value}${4: scope=${3:scope}}}$0",
+    "description": "{assign} is used for assigning template variables during the execution of a template."
+  },
+  "block": {
+    "prefix": "block",
+    "body": [
+      "{block name=${1:name}}",
+      "\t$0",
+      "{/block}"
+    ],
+    "description": "{block} is used to define a named area of template source for template inheritance."
+  },
+  "/block": {
+    "prefix": "/block",
+    "body": "{/block}$0"
+  },
+  "break": {
+    "prefix": "break",
+    "body": "{break}$0",
+    "description": "{break} aborts the iteration of the array."
+  },
+  "capture": {
+    "prefix": "capture",
+    "body": [
+      "{capture ${2:name=\"${1:name}\" }${4:assign=\"${3:variable}\" }${6:append=\"${5:array_variable}\"}}",
+      "\t$0",
+      "{/capture}"
+    ],
+    "description": "{capture} is used to collect the output of the template between the tags into a variable instead of displaying it."
+  },
+  "/capture": {
+    "prefix": "/capture",
+    "body": "{/capture}$0"
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "{case ${1:case_name}}",
+      "\t$0",
+      "\t${2:{break}}"
+    ]
+  },
+  "comment": {
+    "prefix": "comment",
+    "body": "{* ${1:comment} *}$0"
+  },
+  "debug": {
+    "prefix": "debug",
+    "body": "{\\$${1:variable}|@debug_print_var}$0",
+    "description": "{debug} dumps the debug console to the page."
+  },
+  "else": {
+    "prefix": "else",
+    "body": [
+      "{else}",
+      "\t$0"
+    ]
+  },
+  "elseif": {
+    "prefix": "elseif",
+    "body": [
+      "{elseif ${1:condition}}",
+      "\t$0"
+    ]
+  },
+  "extends": {
+    "prefix": "extends",
+    "body": "{extends file=\"${1:file}\"}$0",
+    "description": "{extends} tags are used in child templates in template inheritance for extending parent templates."
+  },
+  "foreach": {
+    "prefix": "foreach",
+    "body": [
+      "{foreach from=${1:collection} item=${2:item}${4: key=${3:key}}${6: name=${5:name}}}",
+      "\t$0",
+      "{/foreach}"
+    ],
+    "description": "{foreach} is used for looping over arrays of data."
+  },
+  "foreachelse": {
+    "prefix": "foreachelse",
+    "body": "{foreachelse}$0"
+  },
+  "/foreach": {
+    "prefix": "/foreach",
+    "body": "{/foreach}$0"
+  },
+  "function": {
+    "prefix": "function",
+    "body": [
+      "{function name=\"${1:name}\" ${2:variables}}",
+      "\t$0",
+      "{/function}"
+    ],
+    "description": "{function} is used to create functions within a template and call them just like a plugin function."
+  },
+  "/function": {
+    "prefix": "/function",
+    "body": "{/function}$0"
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "{if ${1:condition}}",
+      "\t$0",
+      "{/if}"
+    ]
+  },
+  "/if": {
+    "prefix": "/if",
+    "body": "{/if}$0"
+  },
+  "ifelse": {
+    "prefix": "ifelse",
+    "body": [
+      "{if ${1:condition}}",
+      "\t$2",
+      "{else}",
+      "\t$3",
+      "{/if}"
+    ]
+  },
+  "include": {
+    "prefix": "include",
+    "body": "{include file=\"${1:file}\"${3: assign=${2:name}}${6: ${4:var1}=${5:value}}}$0",
+    "description": "{include} tags are used for including other templates in the current template."
+  },
+  "literal": {
+    "prefix": "literal",
+    "body": [
+      "{literal}",
+      "\t$0",
+      "{/literal}"
+    ],
+    "description": "{literal} tags allow a block of data to be taken literally."
+  },
+  "/literal": {
+    "prefix": "/literal",
+    "body": "{/literal}$0"
+  },
+  "strip": {
+    "prefix": "strip",
+    "body": [
+      "{strip}",
+      "\t$0",
+      "{/strip}"
+    ],
+    "description": "Anything within {strip}{/strip} tags are stripped of the extra spaces or carriage returns."
+  },
+  "/strip": {
+    "prefix": "/strip",
+    "body": "{/strip}$0"
+  },
+  "capitalize": {
+    "prefix": "|capitalize",
+    "body": "|capitalize",
+    "description": "Capitalize the first letter of all words in a variable."
+  },
+  "cat": {
+    "prefix": "|cat",
+    "body": "|cat",
+    "description": "Concatenate a value to the given variable."
+  },
+  "count_characters": {
+    "prefix": "|count_characters",
+    "body": "|count_characters",
+    "description": "Count the number of characters in a variable."
+  },
+  "count_paragraphs": {
+    "prefix": "|count_paragraphs",
+    "body": "|count_paragraphs",
+    "description": "Count the number of paragraphs in a variable."
+  },
+  "count_sentences": {
+    "prefix": "|count_sentences",
+    "body": "|count_sentences",
+    "description": "Count the number of sentences in a variable."
+  },
+  "count_words": {
+    "prefix": "|count_words",
+    "body": "|count_words",
+    "description": "Count the number of words in a variable."
+  },
+  "date_format": {
+    "prefix": "|date_format",
+    "body": "|date_format",
+    "description": "Format a date and time into the given strftime() format."
+  },
+  "default": {
+    "prefix": "|default",
+    "body": "|default",
+    "description": "Set a default value for a variable."
+  },
+  "escape": {
+    "prefix": "|escape",
+    "body": "|escape",
+    "description": "Encode or escape a variable to html, url, single quotes, hex, hexentity, javascript and mail."
+  },
+  "from_charset": {
+    "prefix": "|from_charset",
+    "body": "|from_charset",
+    "description": "Transcode a string from a given charset to the internal charset."
+  },
+  "indent": {
+    "prefix": "|indent",
+    "body": "|indent",
+    "description": "Indent a string on each line, default is 4."
+  },
+  "lower": {
+    "prefix": "|lower",
+    "body": "|lower",
+    "description": "Lowercase a variable."
+  },
+  "nl2br": {
+    "prefix": "|nl2br",
+    "body": "|nl2br",
+    "description": "Convert all line breaks to html <br /> tags."
+  },
+  "regex_replace": {
+    "prefix": "|regex_replace",
+    "body": "|regex_replace",
+    "description": "Regular expression search and replace on a variable."
+  },
+  "replace": {
+    "prefix": "|replace",
+    "body": "|replace",
+    "description": "Simple search and replace on a variable."
+  },
+  "spacify": {
+    "prefix": "|spacify",
+    "body": "|spacify",
+    "description": "Insert a space between every character of a variable."
+  },
+  "string_format": {
+    "prefix": "|string_format",
+    "body": "|string_format",
+    "description": "Format strings, such as decimal numbers using sprintf() syntax."
+  },
+  "stripmodifier": {
+    "prefix": "|strip",
+    "body": "|strip",
+    "description": "Replace all spaces, newlines and tabs with a single space."
+  },
+  "strip_tags": {
+    "prefix": "|strip_tags",
+    "body": "|strip_tags",
+    "description": "Strip out markup tags."
+  },
+  "to_charset": {
+    "prefix": "|to_charset",
+    "body": "|to_charset",
+    "description": "Transcode a string from the internal charset to a given charset."
+  },
+  "truncate": {
+    "prefix": "|truncate",
+    "body": "|truncate",
+    "description": "Truncate a variable to a character length, default is 80."
+  },
+  "unescape": {
+    "prefix": "|unescape",
+    "body": "|unescape",
+    "description": "Decode entity, html and htmlall."
+  },
+  "upper": {
+    "prefix": "|upper",
+    "body": "|upper",
+    "description": "Uppercase a variable."
+  },
+  "wordwrap": {
+    "prefix": "|wordwrap",
+    "body": "|wordwrap",
+    "description": "Wrap a string to a column width, default is 80."
+  }
+}
