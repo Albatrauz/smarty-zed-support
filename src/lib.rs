@@ -1,5 +1,5 @@
 use std::{env, fs};
-use zed_extension_api::{self as zed, LanguageServerId, Result};
+use zed_extension_api::{self as zed, serde_json, LanguageServerId, Result};
 
 /// NPM package that ships the Smarty language server (extracted from the
 /// `ssigwart/vscode-smarty` extension). Provides completions for Smarty tags,
@@ -144,6 +144,27 @@ impl zed::Extension for SmartyExtension {
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
         self.language_server_command(language_server_id, worktree)
+    }
+
+    fn language_server_initialization_options(
+        &mut self,
+        _language_server_id: &LanguageServerId,
+        _worktree: &zed::Worktree,
+    ) -> Result<Option<serde_json::Value>> {
+        // The server dereferences `initializationOptions.storageDir` without a
+        // null check, so it crashes on `initialize` if we send no options at
+        // all. We give it a writable directory inside the extension's working
+        // dir, which also enables its cross-file index (used for {include}
+        // navigation and workspace-wide variable completions).
+        let mut options = serde_json::Map::new();
+        if let Ok(dir) = env::current_dir() {
+            let storage_dir = dir.join("smarty-index");
+            options.insert(
+                "storageDir".to_string(),
+                serde_json::Value::String(storage_dir.to_string_lossy().into_owned()),
+            );
+        }
+        Ok(Some(serde_json::Value::Object(options)))
     }
 }
 
