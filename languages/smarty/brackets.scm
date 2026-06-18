@@ -1,9 +1,9 @@
-; Smarty tag delimiters
+; Match the braces of an individual tag.
 (tag "{" @open "}" @close)
 (start_tag "{" @open "}" @close)
 (end_tag "{/" @open "}" @close)
 
-; Block constructs (matching start/end tags)
+; Match the opening and closing tags of paired block constructs.
 (block
   (start_tag) @open
   (end_tag) @close)
@@ -32,7 +32,7 @@
   (literal_start_tag) @open
   (literal_end_tag) @close)
 
-; Expression brackets
+; Match expression brackets.
 (parenthesized_expression "(" @open ")" @close)
+(arguments "(" @open ")" @close)
 (array "[" @open "]" @close)
-(array_access_expression "[" @open "]" @close)
