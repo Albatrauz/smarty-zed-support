@@ -3,13 +3,18 @@ name = "Smarty templating support"
 version = "0.0.1"
 schema_version = 1
 authors = ["Michael van Gorkum <michaelvg94@gmail.com>"]
-description = "Extension for Smarty templating support in Zed"
+description = "Smarty templating language support for Zed: syntax highlighting, HTML/CSS/JS injection, snippets, and an optional language server."
 repository = "https://github.com/Albatrauz/smarty-zed-support"
 themes = []
 icon_themes = []
 languages = ["languages/smarty"]
+snippets = ["./snippets/smarty.json"]
 capabilities = []
 
 [grammars.smarty]
-repository = "https://github.com/hex-cat-man/tree-sitter-smarty"
-rev = "6ced040bd8029c817c79e4430bfa83e72aeb1064"
+repository = "https://github.com/Albatrauz/tree-sitter-smarty"
+rev = "4f19a8025407f49c6aefa686cf92bc2c19ffe9b3"
+
+[language_servers.smarty-language-server]
+name = "Smarty Language Server"
+languages = ["Smarty"]

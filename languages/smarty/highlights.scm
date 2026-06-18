@@ -1,11 +1,8 @@
-; Punctuation
+; Tag and expression delimiters
 [
   "{"
   "}"
   "{/"
-] @punctuation.bracket
-
-[
   "["
   "]"
   "("
@@ -49,42 +46,41 @@
 
   "??"
   "?:"
+
+  "&&"
+  "||"
 ] @operator
 
 (ternary_expression
   ["?" ":"] @operator)
 
-; Keyword operators (scoped to binary_expression to avoid substring matches)
-(binary_expression
-  [
-    "and"
-    "xor"
-    "or"
-    "div"
-    "eq"
-    "even"
-    "ge"
-    "gt"
-    "gte"
-    "le"
-    "lt"
-    "lte"
-    "mod"
-    "ne"
-    "neq"
-    "not"
-    "odd"
-    "is"
-    "in"
-  ] @keyword)
+; Word operators
+[
+  "and"
+  "or"
+  "xor"
+  "not"
+  "eq"
+  "ne"
+  "neq"
+  "gt"
+  "lt"
+  "gte"
+  "ge"
+  "lte"
+  "le"
+  "mod"
+  "div"
+  "by"
+  "in"
+  "is"
+  "even"
+  "odd"
+  "to"
+  "as"
+] @keyword.operator
 
-(for_start_tag
-  ["to" "by" "as"] @keyword)
-
-(foreach_start_tag
-  ["as"] @keyword)
-
-; Control flow keywords
+; Built-in control-flow keywords
 [
   "if"
   "else"
@@ -99,47 +95,48 @@
   "while"
 ] @keyword.control
 
-; Tag function names (include, assign, etc.)
-(tag_function_name) @tag
+; Tag function names — {include}, {assign}, {capture}, {block}, custom tags, ...
+(tag_function_name) @function
+
+; Tag attribute names
+(tag_function_attribute
+  name: (identifier) @attribute)
 
 ; Comments
 (comment) @comment
 
-; Tag attributes
-(tag_function_attribute
-  name: (identifier) @attribute)
-
 ; Variables
 (variable) @variable
-(variable "$" @keyword)
-(config_variable "#" @keyword)
+(variable "$" @punctuation.special)
+(config_variable) @variable
+(config_variable "#" @punctuation.special)
 
-; Built-in $smarty variable
+; The built-in $smarty superglobal
 (variable
-  (identifier) @variable.builtin
-  (#any-of? @variable.builtin "smarty"))
+  (identifier) @variable.special
+  (#eq? @variable.special "smarty"))
 
-; Built-in variable properties
+; Loop/iterator properties: $item@index, $item@first, ...
 (variable_property
-  property: (identifier) @variable.builtin
-    (#any-of? @variable.builtin "index" "iteration" "first" "last" "show" "total"))
+  property: (identifier) @variable.special
+  (#any-of? @variable.special "index" "iteration" "first" "last" "show" "total"))
 (variable_property "@" @operator)
 
-; Member access and calls
+; Member access and method calls
 (member_access_expression
   name: (identifier) @property)
 (member_call_expression
-  name: (identifier) @function)
+  name: (identifier) @function.method)
 (section_access_expression
   name: (identifier) @property)
 (smarty_access_expression
   name: (identifier) @property)
 
-; $smarty.const.X pattern
+; $smarty.const.FOO — highlight FOO as a constant
 (smarty_access_expression
   array: (smarty_access_expression
     array: (variable
-      (identifier) @variable.builtin (#eq? @variable.builtin "smarty"))
+      (identifier) @variable.special (#eq? @variable.special "smarty"))
     name: (identifier) @property (#eq? @property "const"))
   name: (identifier) @constant)
 
@@ -150,7 +147,7 @@
   name: (identifier) @function)
 
 ; Literals
-(null) @type.builtin
+(null) @constant.builtin
 (boolean) @boolean
 (number) @number
 (string) @string

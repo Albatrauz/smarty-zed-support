@@ -1,3 +1,15 @@
+# Rust / Zed extension build artifacts
+/target/
+*.wasm
+
+# The grammar is fetched from its own repository by Zed at install time;
+# never commit a local clone or the compiled grammar.
+/grammars/
+
+# Node (language server is installed into the extension dir at runtime)
+node_modules/
+
+# Local / editor files
 .claude/
 feature-parity.png
 .DS_Store
